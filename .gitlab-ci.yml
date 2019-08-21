@@ -30,9 +30,10 @@ gradle-build:
 docker-build:
   stage: package
   script:
-    - docker build -t "$CI_REGISTRY_IMAGE:$CI_PIPELINE_ID" .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker push "$CI_REGISTRY_IMAGE:$CI_PIPELINE_ID"
+    - docker image build -t app .
+    - docker image tag app localhost:5000/app
+    - docker image push localhost:5000/app
     
 deploy-staging:
   stage: deploy
