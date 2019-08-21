@@ -1,0 +1,45 @@
+image: docker-ce
+
+before_script:
+  - export
+  
+stages:
+  - build
+  - package
+  - deploy
+  
+gradle-build:
+  image: gradle:alpine
+  stage: build
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/ .gradle
+  script:
+    - gradle build
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+      - build
+      - .gradle
+    artifacts:
+      paths:
+        - build/lids/*.jar
+        
+docker-build:
+  stage: package
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
+    
+deploy-staging:
+  stage: deploy
+  script:
+    - ID=$(docker ps -a --filter="name=dev-$CI_PROJECT_NAME" -q) && [[ -n $ID ]] && docker stop $ID && docker rm $ID
+    - docker run -d --name dev-$CI_PROJECT_NAME --restart always --publish 9091:9091 $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
+  environment:
+    name: staging
+    url: http://101.101.165.137:9091
+    only:
+      - master          
