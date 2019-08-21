@@ -22,9 +22,9 @@ gradle-build:
     paths:
       - build
       - .gradle
-    artifacts:
-      paths:
-        - build/lids/*.jar
+  artifacts:
+    paths:
+      - build/lids/*.jar
         
 docker-build:
   stage: package
