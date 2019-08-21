@@ -21,7 +21,7 @@ gradle-build:
     key: "$CI_COMMIT_REF_NAME"
     paths:
       - build
-      - .gradle
+      - .gradle/wrapper
   artifacts:
     paths:
       - build/lids/*.jar
