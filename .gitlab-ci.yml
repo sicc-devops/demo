@@ -1,4 +1,4 @@
-image: docker-ce
+image: java:8-jdk
 
 before_script:
   - export
