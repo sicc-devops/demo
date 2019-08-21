@@ -25,7 +25,7 @@ gradle-build:
       - .gradle/wrapper
   artifacts:
     paths:
-      - build/lids/*.jar
+      - build/libs/*.jar
         
 docker-build:
   stage: package
