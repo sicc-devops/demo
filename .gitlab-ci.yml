@@ -41,5 +41,6 @@ deploy-staging:
   environment:
     name: staging
     url: http://101.101.165.137:9091
-    only:
-      - master          
+  when: manual
+  only:
+    - master          
