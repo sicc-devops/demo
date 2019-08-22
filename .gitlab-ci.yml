@@ -26,6 +26,8 @@ gradle-build:
   artifacts:
     paths:
       - build/libs/*.jar
+
+image: docker:latest
         
 docker-build:
   stage: package
