@@ -30,7 +30,7 @@ gradle-build:
 
 image: docker:latest
 services:
-  - docker:dind
+  - docker:18.09-dind
         
 docker-build:
   stage: package
