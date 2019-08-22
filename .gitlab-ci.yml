@@ -47,4 +47,5 @@ deploy-staging:
     url: http://101.101.165.137:9091
   when: manual
   only:
-    - master          
+    - master
+    
