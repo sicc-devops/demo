@@ -19,6 +19,7 @@ gradle-build:
     
   script:
     - gradle build
+
   cache:
     key: "$CI_COMMIT_REF_NAME"
     paths:
@@ -28,8 +29,8 @@ gradle-build:
     paths:
       - build/libs/*.jar
   after_script:    
-    - echo build/libs/*.jar
-    - mv build/libs/*.jar build/libs/app.jar
+
+    - mv build/libs/demo-0.0.1-SNAPSHOT.jar build/libs/app.jar
 
 image: docker:latest
 services:
