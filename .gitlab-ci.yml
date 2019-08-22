@@ -29,6 +29,8 @@ gradle-build:
       - build/libs/*.jar
 
 image: docker:latest
+services:
+  - docker:dind
         
 docker-build:
   stage: package
