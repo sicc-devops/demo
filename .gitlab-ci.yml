@@ -27,7 +27,7 @@ gradle-build:
   artifacts:
     paths:
       - build/libs/*.jar
-  script:    
+  after_script:    
     - echo build/libs/*.jar
     - mv build/libs/*.jar build/libs/app.jar
 
