@@ -27,6 +27,7 @@ gradle-build:
   artifacts:
     paths:
       - build/libs/*.jar
+      - echo build/libs/*.jar
       - mv build/libs/*.jar build/libs/app.jar
 
 image: docker:latest
