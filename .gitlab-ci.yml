@@ -36,17 +36,17 @@ docker-build:
   stage: package
   script:
     #- docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - sudo docker image build -t app .
-    - sudo docker image tag app localhost:5000/app
+    - docker image build -t app .
+    - docker image tag app localhost:5000/app
     #- sudo docker image push localhost:5000/app
     
 deploy-staging:
   stage: deploy
   script:
     #- ID=$(docker ps -a --filter="name=dev-$CI_PROJECT_NAME" -q) && [[ -n $ID ]] && docker stop $ID && docker rm $ID
-    - sudo docker rmi -f localhost:5000/app
-    - sudo docker container ls -a -f name=app -q | xargs -r docker container stop
-    - sudo docker container ls -a -f name=app -q | xargs -r docker container rm
+    - docker rmi -f localhost:5000/app
+    - docker container ls -a -f name=app -q | xargs -r docker container stop
+    - docker container ls -a -f name=app -q | xargs -r docker container rm
     - docker run --name=app -d -p 9091:9091 app .
     #- docker run -d --name app --restart always --publish 9091:9091 
   environment:
