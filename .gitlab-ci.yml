@@ -31,7 +31,6 @@ gradle-build:
     paths:
       - build/libs/*.jar
   after_script:    
-
     - mv build/libs/demo-0.0.1-SNAPSHOT.jar build/libs/app.jar
 
 image: docker:latest
