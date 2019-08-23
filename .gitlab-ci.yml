@@ -51,6 +51,7 @@ deploy-staging:
     #- ID=$(docker ps -a --filter="name=dev-$CI_PROJECT_NAME" -q) && [[ -n $ID ]] && docker stop $ID && docker rm $ID
     - docker container ls -a -f name=app -q | xargs -r docker container stop
     - docker container ls -a -f name=app -q | xargs -r docker container rm
+    - docker image pull localhost:5000/app
     - docker run --name=app -d -p 9091:9091 app .
     #- docker run -d --name app --restart always --publish 9091:9091 
   environment:
