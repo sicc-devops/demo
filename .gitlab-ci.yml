@@ -15,7 +15,7 @@ gradle-build:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./gradlew
+    - sudo chmod +x ./gradlew
     - export VERSION = $(./gradlew properties -q | grep \"version:\" | awk '{print \$2}')
     - export jarFile = $CI_PROJECT_NAME-$VERSION.jar
 
