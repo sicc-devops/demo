@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +18,10 @@ public class DemoApplication {
 	private Environment env;
 	
 	@RequestMapping("/")
-	public String init() {
-		String cEnv[] = env.getActiveProfiles();
-		return "Springboot App Running~~!!" + cEnv[0];
+	public String init() throws UnknownHostException {
+		String host = InetAddress.getLocalHost().getHostName();
+		String host_ip = InetAddress.getLocalHost().getHostAddress();
+		return "Springboot App Running on the host => "+ host + "[" + host_ip + "]";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
