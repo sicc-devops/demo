@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: ${APP_NAME}-service
 spec:                               # Service object를 노출하기 위한 방식을 설정
-  type: ClusterIP
+  type: LoadBalancer
   selector:                         # Service object가 요청을 전달할 Pod을 찾기위한 검색어 
     app: ${APP_NAME}                # app이름으로  Pod의 label이 같은 pod를 찾아 요청을 전달, 찾은 Pod이 여러개인 경우 load balancing 정책에 따라 하나의 Pod을 선택함.
   ports:
@@ -110,15 +110,9 @@ kind: Ingress
 metadata:
   name: ${APP_NAME}-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
-    ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.global-static-ip-name: app-ip
   labels:
 spec:
-  rules:
-    - host: heavyflood.ncp.sicc.co.kr # 원하는 host명으로 변경 필요 
-      http:
-        paths:
-          - path: "/"
-            backend:
-              serviceName: ${APP_NAME}-service
-              servicePort: http      
+  backend:
+    serviceName: ${APP_NAME}-service
+    servicePort: http      
