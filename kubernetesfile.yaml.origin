@@ -3,8 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ${APP_NAME}-service
-  labels:
-    app: ${APP_NAME} 
 spec:                               # Service object를 노출하기 위한 방식을 설정
   type: LoadBalancer
   selector:                         # Service object가 요청을 전달할 Pod을 찾기위한 검색어 
@@ -13,19 +11,19 @@ spec:                               # Service object를 노출하기 위한 방�
   - name: http
     protocol: TCP
     port: 80                        # 외부에서 접속 port ====> application 접속포트 확인하세요                                      
+#   nodePort: 30130                 # 클러스터 Node와의 통신 포트 -> 미지정시 가용한 포트에 랜덤하게 할당됨                                       
     targetPort: 9091                # Service object로 들어온 요청을 전달할 target이되는 Pod이 노출하고 있는 포트.(pod 내의 container 연결포트)                                       
-                                    # ==============> targetPort는 수동설정  <========================================== 
+                                    # ==============> targetPort는 수동설정  <==========================================
 ---
 
 # DEPOLOYMENT
 apiVersion: apps/v1
 kind: Deployment
 metadata:                           # Deployment object 자신의 고유 정보
-  name: ${APP_NAME}                 # Deployment object에 대한 Unique-key
-  labels:
-    app: ${APP_NAME} 
+  name: ${APP_NAME}                 # Deployment object에 대한 Unique-key 
 spec:
-  replicas: 2                       # 초기 Pod의 개수를 설정
+  replicas: 4                       # 초기 Pod의 개수를 설정
+#  minReadySeconds: 20              # Pod이 Ready 단계가 된 후, Available 단계가 될 때 까지의 시간 차이. readiness설정으로 주석철함
   revisionHistoryLimit: 2           # replicaset 이전버전 보관수
   strategy:
     type: RollingUpdate             # RollingUpdate에 대한 상세 설정. “Recreate” or “RollingUpdate”를 설정 가능 합니다. 기본값은 “RollingUpdate” 입니다. Recreate의 경우 Pod가 삭제된 후 재생성.
@@ -51,24 +49,39 @@ spec:
           requests:                 # Pod 스케쥴링의 기준. 컨테이너가 요청할 최소한의 리소스에 대한 설정입니다. Spring Boot 애플리케이션의 경우는 메모리 값을 256M 이상으로 설정                                    
             memory: "256Mi"                                                
             cpu: "200m"
-          limits:                   # 컨테이너가 최대한으로 사용할 리소스에 대한 설정입니다. 애플리케이션에 따라 적절한 CPU와 메모리 값으로 설정                                    
+          limits:                   # 컨테이너가 최대한으로 사용할 리소스에 대한 설정입니다. 애플리케이션에 따라 적절한 CPU와 메모리 값으로 설정                                   
             memory: "1Gi"                                                
             cpu: "500m"
         livenessProbe:              
           exec:
-            command: ["sh", "-c", "cd /tech"]              
+            command: ["sh", "-c", "cd /"]              
           initialDelaySeconds: 30
-          periodSeconds: 30                    
+          periodSeconds: 30
+#          timeoutSeconds: 1 
+#          successThreshold: 1
+#          failureThreshold: 3
+#          httpGet:
+#            path: /
+#            port: 8080
+#          tcpSocket:
+#            port: 8080
+#          initialDelaySeconds: 5
+#          periodSeconds: 5
+#          successThreshold: 1                          
         readinessProbe:
           exec:
-            command: ["sh", "-c", "cd /tech"]  
+            command: ["sh", "-c", "cd /"]  
           initialDelaySeconds: 30 # 컨테이너가 시작된 후 프로브를 보내기 전에 기다리는 시간
           periodSeconds: 15       # 검사를 보내는 빈도. 보통 10~20초 사이로 세팅
+#          timeoutSeconds: 1      # 해당 시간 이내 반드시 응답
+#          successThreshold: 1    # probe가 명령 수행 후 성공이라고 판단하기 위한 최소 횟수
+#          failureThreshold: 3    # probe가 명령 수행 후 실패라고 판단하기 위한 최소 횟수, probe가 횟수 이상 실패하면 컨테이너 중지 후 재시작
         lifecycle:                # 20 초의 동기식 유예 기간을 선택. 포드 종료 프로세스는이 대기 시간 후에 만 ​계속됨
           preStop:
             exec:
               command: ["sh", "-c", "sleep 20"]             
-            
+      imagePullSecrets:
+      - name: regcred    
 ---
 
 # HPA(Horizonal Pod AutoScaler)     # Horizonal Pod AutoScaler 적용      
@@ -77,7 +90,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: ${APP_NAME}-hpa             # HorizontalPodAutoscaler object 자신의 고유 정보를 입력
 spec:                               # HorizontalPodAutoscaler object가 수행하는 내용에 대한 설정   
-  maxReplicas: 5                    # 업스케일 시 생성할 수 있는 Pod의 최대수   
+  maxReplicas: 6                    # 업스케일 시 생성할 수 있는 Pod의 최대수   
   minReplicas: 2                    # 다운스케일 시 생성할 수 있는 Pod의 최소수   
   scaleTargetRef:                   # HorizontalPodAutoscaler object가 동작할 대상에 대한 설정   
     apiVersion: apps/v1          
@@ -88,18 +101,18 @@ spec:                               # HorizontalPodAutoscaler object가 수행�
     resource:
       name: cpu
       targetAverageUtilization: 80
+#      targetAverageValue: 1k   
 ---
 
 ## Ingress          
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ${APP_NAME}-ingress-dev
+  name: ${APP_NAME}-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: app-ip
+  labels:
 spec:
-   backend:
-     serviceName: ${APP_NAME}-service
-     servicePort: http      
-              
----
+  backend:
+    serviceName: ${APP_NAME}-service
+    servicePort: http      
