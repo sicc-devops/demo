@@ -21,7 +21,7 @@ public class DemoApplication {
 	public String init() throws UnknownHostException {
 		String host = InetAddress.getLocalHost().getHostName();
 		String host_ip = InetAddress.getLocalHost().getHostAddress();
-		return "Springboot App Running on the host => "+ host + "[" + host_ip + "]";
+		return "Springboot App (ver.1.0) Running on the host => "+ host + "[" + host_ip + "]";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
