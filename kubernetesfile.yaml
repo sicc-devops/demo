@@ -18,7 +18,7 @@ spec:                               # Service object를 노출하기 위한 방�
 ---
 
 # DEPOLOYMENT
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:                           # Deployment object 자신의 고유 정보
   name: ${APP_NAME}                 # Deployment object에 대한 Unique-key
