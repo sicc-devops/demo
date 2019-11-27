@@ -44,12 +44,9 @@ spec:
       - name: ${APP_NAME}
         image: ${IMAGE}
         imagePullPolicy: Always     # Always download images, **IfNotPresent : Use cached images first     
-        #ports:
-        #- name: http
-        #  containerPort: 9091       # ==============>   targetPort와 맞춰주세요  <=====================
-        env:
-        - name: PORT
-          value: 9091                                
+        ports:
+        - name: http
+          containerPort: 9091       # ==============>   targetPort와 맞춰주세요  <=====================
         resources:
           requests:                 # Pod 스케쥴링의 기준. 컨테이너가 요청할 최소한의 리소스에 대한 설정입니다. Spring Boot 애플리케이션의 경우는 메모리 값을 256M 이상으로 설정                                    
             memory: "256Mi"                                                
