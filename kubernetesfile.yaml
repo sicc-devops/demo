@@ -98,6 +98,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: app-ip
 spec:
-   backend:
-     serviceName: ${APP_NAME}-service
-     servicePort: http
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: ${APP_NAME}-service
+          servicePort: http
