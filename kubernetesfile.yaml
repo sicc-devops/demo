@@ -56,12 +56,12 @@ spec:
             cpu: "500m"
         livenessProbe:              
           exec:
-            command: ["sh", "-c", "cd /tech"]              
+            command: ["sh", "-c", "cd /"]              
           initialDelaySeconds: 30
           periodSeconds: 30                    
         readinessProbe:
           exec:
-            command: ["sh", "-c", "cd /tech"]  
+            command: ["sh", "-c", "cd /"]  
           initialDelaySeconds: 30 # 컨테이너가 시작된 후 프로브를 보내기 전에 기다리는 시간
           periodSeconds: 15       # 검사를 보내는 빈도. 보통 10~20초 사이로 세팅
         lifecycle:                # 20 초의 동기식 유예 기간을 선택. 포드 종료 프로세스는이 대기 시간 후에 만 ​계속됨
