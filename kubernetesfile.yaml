@@ -103,6 +103,6 @@ metadata:
 spec:
    backend:
      serviceName: ${APP_NAME}-service
-     servicePort: http      
+     servicePort: 9091      
               
 ---
