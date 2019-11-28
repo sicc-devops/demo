@@ -66,7 +66,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - ${APP_NAME}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -74,7 +74,7 @@ metadata:
   name: ${APP_NAME}
 spec:
   hosts:
-  - "*"
+  - ${APP_NAME}
   gateways:
   - ${APP_NAME}-gateway
   http:
@@ -83,6 +83,6 @@ spec:
         prefix: /
     route:
     - destination:
-        host: /
+        host: ${APP_NAME}
         port:
           number: 9091 
