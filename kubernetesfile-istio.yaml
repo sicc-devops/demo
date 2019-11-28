@@ -1,0 +1,88 @@
+# SERVICE
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${APP_NAME}-service
+  labels:
+    app: ${APP_NAME} 
+spec:
+  selector: 
+    app: ${APP_NAME}
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80                                      
+    targetPort: 9091
+                                           
+---
+# SERVICE ACCOUNT
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ${APP_NAME}-acnt
+  labels:
+    account: ${APP_NAME}-acnt
+    
+---
+# DEPOLOYMENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}
+  labels:
+    app: ${APP_NAME}
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ${APP_NAME}
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME}
+        version: v1
+    spec:
+      serviceAccountName: ${APP_NAME}-acnt
+      containers:
+      - name: ${APP_NAME}
+        image: ${IMAGE}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9091
+        
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ${APP_NAME}-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${APP_NAME}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ${APP_NAME}-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: /
+        port:
+          number: 9091 
