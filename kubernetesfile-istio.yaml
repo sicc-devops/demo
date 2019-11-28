@@ -13,15 +13,6 @@ spec:
     protocol: TCP
     port: 80                                      
     targetPort: 9091
-                                           
----
-# SERVICE ACCOUNT
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: ${APP_NAME}-acnt
-  labels:
-    account: ${APP_NAME}-acnt
     
 ---
 # DEPOLOYMENT
@@ -44,7 +35,6 @@ spec:
         app: ${APP_NAME}
         version: v1
     spec:
-      serviceAccountName: ${APP_NAME}-acnt
       containers:
       - name: ${APP_NAME}
         image: ${IMAGE}
