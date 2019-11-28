@@ -83,6 +83,6 @@ spec:
         prefix: /
     route:
     - destination:
-        host: "*"
+        host: ${APP_NAME}
         port:
           number: 9091 
