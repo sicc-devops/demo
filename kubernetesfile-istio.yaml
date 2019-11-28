@@ -83,6 +83,6 @@ spec:
         prefix: /
     route:
     - destination:
-        host: http://localhost/
+        host: localhost
         port:
           number: 9091 
