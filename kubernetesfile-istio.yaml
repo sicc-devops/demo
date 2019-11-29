@@ -74,10 +74,11 @@ spec:
     route:
     - destination:
         host: ${APP_NAME}.svc.cluster.local
+          trafficPolicy:
+            tls:
+              mode: DISABLE
         port:
           number: 9091
-          trafficPolicy:
-        tls:
-          mode: DISABLE  
+  
 
          
