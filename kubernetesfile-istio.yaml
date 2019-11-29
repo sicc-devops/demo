@@ -58,7 +58,7 @@ spec:
     hosts:
     - "*"
     tls:
-      mode: disable
+      mode: DISABLE
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
