@@ -70,9 +70,9 @@ spec:
   http:
   - match:
     - uri:
-        exact: /
+        exact: /api
     route:
     - destination:
-        host: "/"
+        host: api
         port:
           number: 9091 
