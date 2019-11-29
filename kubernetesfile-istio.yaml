@@ -73,6 +73,6 @@ spec:
         prefix: /
     route:
     - destination:
-        host: "104.154.144.189"
+        host: "*"
         port:
           number: 9091 
