@@ -71,9 +71,9 @@ spec:
   - match:
     - uri:
         exact: /api
-#    route:
-#    - destination:
-#        host: api
-#        port:
-#          number: 9091
+    route:
+    - destination:
+        host: api
+        port:
+          number: 9091
          
