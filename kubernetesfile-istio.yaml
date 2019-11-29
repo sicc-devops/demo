@@ -88,5 +88,5 @@ metadata:
 spec:
   peers:
     - mtls:
-        mode: DISABLE
+        mode: PERMISSIVE
          
