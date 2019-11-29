@@ -73,6 +73,6 @@ spec:
         prefix: /
     route:
     - destination:
-        host: localhost
+        host: 104.154.144.189
         port:
           number: 9091 
