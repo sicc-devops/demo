@@ -57,6 +57,7 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+    
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -74,11 +75,18 @@ spec:
     route:
     - destination:
         host: ${APP_NAME}.svc.cluster.local
-          trafficPolicy:
-            tls:
-              mode: DISABLE
         port:
           number: 9091
   
+---
 
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "default"
+  namespace: "default"
+spec:
+  peers:
+    - mtls:
+        mode: DISABLE
          
