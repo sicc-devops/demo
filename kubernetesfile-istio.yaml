@@ -73,7 +73,8 @@ spec:
         exact: /api
     route:
     - destination:
-        host: api
+        host: ${APP_NAME}.svc.cluster.local
         port:
           number: 9091
+
          
