@@ -76,5 +76,8 @@ spec:
         host: ${APP_NAME}.svc.cluster.local
         port:
           number: 9091
+          trafficPolicy:
+        tls:
+          mode: DISABLE  
 
          
