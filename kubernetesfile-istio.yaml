@@ -74,7 +74,7 @@ spec:
         prefix: /
     route:
     - destination:
-        host: ${APP_NAME}.svc.cluster.local
+        host: ${APP_NAME}.istio-system.svc.cluster.local
         port:
           number: 9091
          
