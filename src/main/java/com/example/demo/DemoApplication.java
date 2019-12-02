@@ -17,7 +17,7 @@ public class DemoApplication {
 	@Autowired
 	private Environment env;
 	
-	@RequestMapping("/api")
+	@RequestMapping("/")
 	public String init() throws UnknownHostException {
 		String host = InetAddress.getLocalHost().getHostName();
 		String host_ip = InetAddress.getLocalHost().getHostAddress();
