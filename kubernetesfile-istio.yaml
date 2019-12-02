@@ -77,16 +77,4 @@ spec:
         host: ${APP_NAME}.svc.cluster.local
         port:
           number: 9091
-  
----
-
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "default"
-  namespace: "default"
-spec:
-  peers:
-    - mtls:
-        mode: PERMISSIVE
          
