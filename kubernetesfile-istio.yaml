@@ -71,7 +71,7 @@ spec:
   http:
   - match:
     - uri:
-        exact: /api
+        prefix: /api
     route:
     - destination:
         host: ${APP_NAME}.svc.cluster.local
