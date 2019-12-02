@@ -71,8 +71,10 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /
+        exact: /api
     route:
     - destination:
-        host: nginx.default.svc.cluster.local
+        host: ${APP_NAME}.svc.cluster.local
+        port:
+          number: 9091
          
