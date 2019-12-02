@@ -67,14 +67,14 @@ spec:
   hosts:
   - "*"
   gateways:
-  - ${APP_NAME}-gateway.istio-system.svc.cluster.local
+  - ${APP_NAME}-gateway
   http:
   - match:
     - uri:
         prefix: /
     route:
     - destination:
-        host: ${APP_NAME}.istio-system.svc.cluster.local
+        host: ${APP_NAME}-service.istio-system.svc.cluster.local
         port:
           number: 9091
          
