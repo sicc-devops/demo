@@ -46,7 +46,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: ${APP_NAME}-gateway.istio-system.svc.cluster.local
+  name: ${APP_NAME}-gateway
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -67,7 +67,7 @@ spec:
   hosts:
   - "*"
   gateways:
-  - ${APP_NAME}-gateway
+  - ${APP_NAME}-gateway.istio-system.svc.cluster.local
   http:
   - match:
     - uri:
