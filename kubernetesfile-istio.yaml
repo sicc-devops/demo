@@ -76,5 +76,4 @@ spec:
     - destination:
         host: ${APP_NAME}-service.istio-system.svc.cluster.local
         port:
-          number: 9091
-         
+          number: 9091   
