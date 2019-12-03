@@ -98,7 +98,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /
+        exact: /demo
     route:
     - destination:
         host: ${APP_NAME}-service.istio-system.svc.cluster.local
