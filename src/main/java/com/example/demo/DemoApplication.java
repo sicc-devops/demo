@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@RequestMapping("/demo")
 public class DemoApplication {
 
 	@Autowired
 	private Environment env;
 	
-	@RequestMapping("/demo")
+	@RequestMapping("/getInfo")
 	public String init() throws UnknownHostException {
 		String host = InetAddress.getLocalHost().getHostName();
 		String host_ip = InetAddress.getLocalHost().getHostAddress();
