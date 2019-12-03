@@ -17,12 +17,13 @@ public class DemoApplication {
 	@Autowired
 	private Environment env;
 	
-	@RequestMapping("/")
+	@RequestMapping("/demo")
 	public String init() throws UnknownHostException {
 		String host = InetAddress.getLocalHost().getHostName();
 		String host_ip = InetAddress.getLocalHost().getHostAddress();
-		return "Springboot App (ver.1.0) Running on the host => "+ host + "[" + host_ip + "]";
+		return "Demo App (ver.1.0) Running on the host => "+ host + "[" + host_ip + "]";
 	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
